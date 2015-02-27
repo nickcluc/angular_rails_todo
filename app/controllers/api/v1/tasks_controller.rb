@@ -1,43 +1,43 @@
 module Api
   module V1
-    class TasksController < ApplicationController
+    class TodosController < ApplicationController
       skip_before_filter :verify_authenticity_token
       respond_to :json
 
       def index
-        respond_with(Task.all.order("completed ASC").order("id DESC"))
+        respond_with(Todo.all.order("completed ASC").order("id DESC"))
       end
 
       def show
-        respond_with(Task.find(params[:id]))
+        respond_with(Todo.find(params[:id]))
       end
 
       def create
-        @task = Task.new(task_params)
-        if @task.save
+        @todo = Todo.new(todo_params)
+        if @todo.save
           respond_to do |format|
-            format.json { render json: @task }
+            format.json { render json: @todo }
           end
         end
       end
 
       def update
-        @task = Task.find(params[:id])
-        if @task.update(task_params)
+        @todo = Todo.find(params[:id])
+        if @todo.update(todo_params)
           respond_to do |format|
-            format.json { render json: @task }
+            format.json { render json: @todo }
           end
         end
       end
 
       def destroy
-        respond_with Task.destroy(params[:id])
+        respond_with Todo.destroy(params[:id])
       end
 
       private
 
-      def task_params
-        params.require(:task).permit(:name, :completed)
+      def todo_params
+        params.require(:todo).permit(:name, :completed)
       end
     end
   end
